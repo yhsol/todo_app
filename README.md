@@ -1,2 +1,2 @@
-# todo_app
+# To Do
 To Do App made with React Native
