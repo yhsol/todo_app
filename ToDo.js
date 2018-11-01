@@ -7,33 +7,31 @@ export default class ToDo extends Component{
     state = {
         isEditing: false,
         isCompleted: false,
-        ToDovalue: this.props.text
+        toDoValue: this.props.text
 
     };
     render(){
-        const { isCompleted, isEditing, ToDovalue} = this.state;
+        const { isCompleted, isEditing, toDoValue} = this.state;
         const { text } = this.props;
-     return ( <View style={styles.container}>
+     return <View style={styles.container}>
          <View style={styles.column}>
            <TouchableOpacity onPress={this._toggleComplete}>
              <View style={[styles.circle, isCompleted ? styles.completedCircle : styles.uncompletedCircle]} />
+             {/* isCompleted ? styles.completedCircle : styles.uncompletedCircle 에서 Completed면 completedCircle(#bbb)를, 아니면 uncompletedCircle(#F23657)을 보여주는 것. 각각의 경우에 의해 색이 결정되므로 기존의 Circle에는 색을 지정하지 않았다. */}
            </TouchableOpacity>
-           {isEditing ? (
+           {isEditing ? 
            <TextInput 
-            style={[
-                styles.text,
-                styles.input, 
-                isCompleted ? styles.completedText : styles.unCompletedText]} 
-            value={ToDovalue} 
-            value={this.state.text}
-            multiline={true} 
-            onChangeText={this._controllInput}
+           style={[
+               styles.text, 
+               styles.input, 
+               isCompleted ? styles.completedText : styles.unCompletedText
+            ]} 
+            value={toDoValue}   
+            multiline={true}
+            onChangeText={this._controllInput} 
             returnKeyType={"done"}
-            onBlur={this._finishEditing}
-            underlineColorAndroid={"#fff"} 
-            />
-            ) : (
-            <Text
+            onBlur={this._finishEditing} 
+            underlineColorAndroid={"#fff"} /> : <Text
                style={[
                  styles.text,
                  isCompleted
@@ -42,19 +40,17 @@ export default class ToDo extends Component{
                ]}
              >
                {text}
-           </Text>
-           )}
+             </Text>}
          </View>
-         {isEditing ? (
-            <View style={styles.actions}>
+         {/* isEditin ? -> 이 말은 에디팅 중이라면 Check!를 보여주는 것이고 그렇지 않다면 Edit!과 Del!을 보여주는 것. */}
+         {isEditing ? <View style={styles.actions}>
              <TouchableOpacity onPressOut={this._finishEditing}>
                <View style={styles.actionContainer}>
                  <Text style={styles.actionText}>Check!</Text>
                </View>
              </TouchableOpacity>
-           </View>
-           ) : (
-           <View style={styles.actions}>
+           </View> : <View style={styles.actions}>
+           {/* onPressOut으로 _startEditing 이 설정되어 있고, 이것은 isEditing: true 이므로 이 버튼을 누르면 isEditing이 되어서 Check!가 나오게 된다. 위의 onPressout={this._finishEditing}도 같다. */}
              <TouchableOpacity onPressOut={this._startEditing}>
                <View style={styles.actionContainer}>
                  <Text style={styles.actionText}>Edit!</Text>
@@ -65,9 +61,8 @@ export default class ToDo extends Component{
                  <Text style={styles.actionText}>Del!</Text>
                </View>
              </TouchableOpacity>
-           </View>)}
-       </View>
-     );
+           </View>}
+       </View>;
     }
     _toggleComplete = () => {
         this.setState(prevState => {
@@ -80,7 +75,7 @@ export default class ToDo extends Component{
         const { text } = this.props;
         this.setState({
             isEditing: true,
-            ToDoValue: text
+            toDoValue: text
         });
     };
     _finishEditing = () => {
@@ -90,7 +85,7 @@ export default class ToDo extends Component{
     };
     _controllInput = text => {
         this.setState({
-            ToDoValue: text    
+            toDoValue: text    
         });
     };
 }

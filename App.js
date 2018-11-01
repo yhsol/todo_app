@@ -23,13 +23,12 @@ export default class App extends React.Component {
   componentDidMount = () => {
     this._loadToDos();
   }
-  
+
   render() {
     const { newToDo, loadedToDos } = this.state;
     if (!loadedToDos) {
       return <AppLoading />;
     }
-    
     return (
       <View style={styles.container}>
         <StatusBar barStyle="light-content" />
@@ -45,7 +44,6 @@ export default class App extends React.Component {
            returnKeyType={"done"}
            autoCorrect={false} 
            />
-
           <ScrollView contentContainerStyle={styles.ToDos}>
              <ToDo text={"HEllo To Do!"} />
           </ScrollView>
